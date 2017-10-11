@@ -32,11 +32,32 @@ describe('Order Books', () => {
       })
     })
 
-    it('Should get empty data', (done) => {
+    it('Should not get data with an invalid type', (done) => {
       chai.request(app).get('/api/order_book?type=err').end((err, res) => {
-        res.status.should.be.eql(200)
-        res.body.should.have.property('status').eql(200)
-        res.body.should.have.property('data').to.be.an('object').eql({})
+        res.status.should.be.eql(400)
+        res.body.should.have.property('status').eql(400)
+        done()
+      })
+    })
+
+    it('Should not get data with an invalid exchage', (done) => {
+      chai.request(app).get('/api/order_book?exchange=ERR').end((err, res) => {
+        res.status.should.be.eql(400)
+        res.body.should.have.property('status').eql(400)
+        done()
+      })
+    })
+    it('Should not get data with a wrong min and max values (minValue > maxValue)', (done) => {
+      chai.request(app).get('/api/order_book?minValue=10&maxValue=5').end((err, res) => {
+        res.status.should.be.eql(400)
+        res.body.should.have.property('status').eql(400)
+        done()
+      })
+    })
+    it('Should not get data with a wrong min and max quantity (minQuantity > maxQuantity)', (done) => {
+      chai.request(app).get('/api/order_book?minQuantity=10&maxQuantity=5').end((err, res) => {
+        res.status.should.be.eql(400)
+        res.body.should.have.property('status').eql(400)
         done()
       })
     })

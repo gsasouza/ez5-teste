@@ -63,6 +63,15 @@ const filterData = (query) => (value) => {
     (isInBetween(query.minQuantity, query.maxQuantity, value[2]))
 }
 
+function validateQuery (query = {}) {
+  let valid = true
+  if (query.maxValue) valid = parseInt(query.maxValue) > parseInt(query.minValue || 0) && valid
+  if (query.maxQuantity) valid = parseInt(query.maxQuantity) > parseInt(query.minQuantity || 0) && valid
+  if (query.type) valid = (['asks', 'bids'].indexOf(query.type) !== -1) && valid
+  if (query.exchange) valid = (['ARN', 'B2U', 'BAS', 'BIV', 'BSQ', 'FLW', 'FOX', 'LOC', 'MBT', 'NEG', 'PAX'].indexOf(query.exchange) !== -1) && valid
+  return valid
+}
+
 /**
  * Router middleware to find data
  * @param {Object} req Request object
@@ -71,13 +80,12 @@ const filterData = (query) => (value) => {
  */
 function findData (req, res, next) {
   const query = req.query
+  if (!validateQuery(query)) return res.status(400).send({status: 400, message: 'Bad Request', description: 'Invalid query parameters'})
   searchData()
     .then((data) => {
       let result = data
-      if (query.type) {
-        if (['asks', 'bids'].indexOf(query.type) !== -1) result = {[query.type]: result[query.type].filter(filterData(query))}
-        else result = {}
-      } else Object.keys(result).forEach((key) => result[key] = result[key].filter(filterData(query)))
+      if (query.type) result = {[query.type]: result[query.type].filter(filterData(query))}
+      else Object.keys(result).forEach((key) => result[key] = result[key].filter(filterData(query)))
 
       return res.status(200).send({status: 200, message: 'Data loaded successfully', data: result})
     })
