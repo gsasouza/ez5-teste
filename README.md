@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/gsasouza/ez5-teste.svg?branch=master)](https://travis-ci.org/gsasouza/ez5-teste)
 # Instruções de Instalação #
 
 
