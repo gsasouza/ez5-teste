@@ -84,4 +84,5 @@ function findData (req, res, next) {
     .catch((err) => next(err))
 }
 
-module.exports = {findData}
+module.exports = process.env.NODE_ENV === 'development' ? {findData}
+: {findData, filterData, testExchange, isInBetween, fetchApiData, searchData}
