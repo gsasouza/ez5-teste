@@ -5,7 +5,7 @@ const swaggerDocs = require('./docs/swagger-docs')
 const middlewares = require('./middlewares')
 const orderBookRouter = require('./modules/orderBook').router
 
-const PORT = process.env.PORT || 8080
+const PORT = process.env.PORT || 8005
 const app = express()
 
 app.use(cors())

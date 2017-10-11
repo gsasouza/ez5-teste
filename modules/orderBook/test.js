@@ -7,6 +7,18 @@ chai.use(require('chai-http'))
 chai.should()
 
 describe('Order Books', () => {
+
+  describe('Middlewares Tests', () => {
+
+    it('Should not found a route', (done) => {
+      chai.request(app).get('/api/error').end((err, res) => {
+        res.status.should.be.eql(404)
+        res.body.should.have.property('status').eql(404)
+        done()
+      })
+    })
+  })
+
   describe('Get Data -> /GET /api/order_book', () => {
 
     it('Should get some data', (done) => {
@@ -94,9 +106,7 @@ describe('Order Books', () => {
     it('Should filter data by exchange name', (done) => {
       const exchanges = ['ARN', 'B2U', 'BAS', 'BIV', 'BSQ', 'FLW', 'FOX', 'LOC', 'MBT', 'NEG', 'PAX']
       const exchange = exchanges[Math.floor(Math.random() * 11) + 1]
-      testData['bids'].filter(controller.filterData({exchange})).forEach((value) => {
-        value[0].should.be.eql()
-      })
+      testData['bids'].filter(controller.filterData({exchange})).forEach((value) => value[0].should.be.eql(exchange))
       done()
     })
   })

@@ -22,10 +22,10 @@
   "scripts": {
     "security-check": "nsp check",
     "test": "mocha --timeout=5000 --recursive ./modules",
-    "testWin": "SET NODE_ENV=test & nyc --reporter=lcov mocha --reporter=nyan --timeout=20000 --recursive ./modules",
+    "testWin": "SET NODE_ENV=test& nyc --reporter=lcov mocha --reporter=nyan --timeout=5000 --recursive ./modules",
     "prestart": "npm install",
     "start": "node server",
-    "startWin": "SET NODE_ENV=test & nodemon server"
+    "startWin": "SET NODE_ENV=test& nodemon server"
   },
   "repository": {
     "type": "git",
