@@ -76,7 +76,7 @@ function findData (req, res, next) {
       let result = data
       if (query.type) {
         if (['asks', 'bids'].indexOf(query.type) !== -1) result = {[query.type]: result[query.type].filter(filterData(query))}
-        else result = []
+        else result = {}
       } else Object.keys(result).forEach((key) => result[key] = result[key].filter(filterData(query)))
 
       return res.status(200).send({status: 200, message: 'Data loaded successfully', data: result})
@@ -84,5 +84,4 @@ function findData (req, res, next) {
     .catch((err) => next(err))
 }
 
-module.exports = process.env.NODE_ENV === 'development' ? {findData}
-: {findData, filterData, testExchange, isInBetween, fetchApiData, searchData}
+module.exports = {findData}
