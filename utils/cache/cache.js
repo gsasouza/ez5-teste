@@ -15,7 +15,6 @@ module.exports = (expireTimeInSeconds = 70) => {
    * @returns {(Object | undefined)} Object containing the api's data or undefined if the key has expired/deleted
    */
   function getData (key) {
-    console.log('cache')
     return new Promise((resolve, reject) => {
       cache.get(key, (err, value) => {
         if (err) return reject(err)

@@ -1,0 +1,224 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "description": "API para a pesquisa de Order Books",
+    "version": "1.0.0",
+    "title": "ez5-teste",
+    "contact": {
+      "email": "gabrie.ssouza@gmail.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:8008",
+      "description": "Localhost server"
+    }
+  ],
+  "components": {
+    "responses": {
+      "DataResponse": {
+        "description": "Response when have data",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "DescriptionResponse": {
+        "description": "Response when dont have data",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Some detailed message"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Response404": {
+        "description": "Not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/responses/DescriptionResponse"
+            },
+            "example": {
+              "status": "404",
+              "message": "Resource not Found"
+            }
+          }
+        }
+      },
+      "Response500": {
+        "description": "Unexpected server",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/responses/DescriptionResponse"
+            },
+            "example": {
+              "status": "500",
+              "message": "Unexpected Server"
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "Type": {
+        "in": "query",
+        "name": "type",
+        "description": "Tipo de ordem",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "asks",
+            "bids"
+          ],
+          "example": "asks"
+        }
+      },
+      "Exchange": {
+        "in": "query",
+        "name": "exchange",
+        "description": "Nome da exchange",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "ARN",
+            "B2U",
+            "BAS",
+            "BIV",
+            "BSQ",
+            "FLW",
+            "FOX",
+            "LOC",
+            "MBT",
+            "NEG",
+            "PAX"
+          ],
+          "example": "FOX"
+        }
+      },
+      "MinValue": {
+        "in": "query",
+        "name": "minValue",
+        "description": "Valor mínimo que deseja buscar",
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "minimum": 0
+        }
+      },
+      "MaxValue": {
+        "in": "query",
+        "name": "maxValue",
+        "description": "Valor máximo que deseja buscar",
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "minimum": 0
+        }
+      },
+      "MinQuantity": {
+        "in": "query",
+        "name": "minQuantity",
+        "description": "Quantidade mínima que deseja buscar",
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "minimum": 0
+        }
+      },
+      "MaxQuantity": {
+        "in": "query",
+        "name": "maxQuantity",
+        "description": "Quantidade máxima que deseja buscar",
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "minimum": 0
+        }
+      }
+    }
+  },
+  "paths": {
+    "/api/order_books": {
+      "get": {
+        "tags": ["Order Books"],
+        "summary": "Procura por todos os dados que obedecem o critério de pesquisa",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Type"
+          },
+          {
+            "$ref": "#/components/parameters/Exchange"
+          },
+          {
+            "$ref": "#/components/parameters/MinValue"
+          },
+          {
+            "$ref": "#/components/parameters/MaxValue"
+          },
+          {
+            "$ref": "#/components/parameters/MinQuantity"
+          },
+          {
+            "$ref": "#/components/parameters/MaxQuantity"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorna os dados encontrados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/responses/DataResponse"
+                },
+                "example": {
+                  "status": 200,
+                  "message": "Data loaded successfully",
+                  "data": {
+                    "schema": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/Response500"
+          }
+        }
+      }
+    }
+  }
+}

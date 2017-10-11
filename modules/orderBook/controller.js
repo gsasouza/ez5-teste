@@ -10,9 +10,9 @@ function searchData () {
   const key = 'ApiData'
   return new Promise((resolve, reject) => {
     return cache.getData(key)
-      .then((data) => data === undefined
-        ? fetchApiData(apiUrl)
-        : resolve(data)
+      .then((data) => data
+        ? resolve(data)
+        : fetchApiData(apiUrl)
       )
       .then((response) => cache.setData(key, response.data))
       .then((data) => resolve(data))
@@ -25,7 +25,6 @@ function searchData () {
  * @returns {Promise<string>} A promise that contains the api's data when fullfiled
  */
 function fetchApiData (apiUrl) {
-  console.log('api')
   return axios.get(apiUrl)
 }
 
@@ -71,13 +70,14 @@ const filterData = (query) => (value) => {
  * @param {Object} next
  */
 function findData (req, res, next) {
+  const query = req.query
   searchData()
     .then((data) => {
       let result = data
-      if (req.query.type) {
-        if (['asks', 'bids'].indexOf(req.query.type) !== -1) result = result[req.query.type].filter(filterData(req.query))
+      if (query.type) {
+        if (['asks', 'bids'].indexOf(query.type) !== -1) result = {[query.type]: result[query.type].filter(filterData(query))}
         else result = []
-      } else Object.keys(result).forEach((key) => result[key] = result[key].filter(filterData(req.query)))
+      } else Object.keys(result).forEach((key) => result[key] = result[key].filter(filterData(query)))
 
       return res.status(200).send({status: 200, message: 'Data loaded successfully', data: result})
     })
