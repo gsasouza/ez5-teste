@@ -63,6 +63,10 @@ const filterData = (query) => (value) => {
     (isInBetween(query.minQuantity, query.maxQuantity, value[2]))
 }
 
+/**
+ * Validate if query values can be used to filter data
+ * @param {Object} query 
+ */
 function validateQuery (query = {}) {
   let valid = true
   if (query.maxValue) valid = parseInt(query.maxValue) > parseInt(query.minValue || 0) && valid
