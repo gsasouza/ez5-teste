@@ -1,0 +1,37 @@
+{
+  "name": "ez5-teste",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "axios": "^0.16.2",
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
+    "express": "^4.16.2",
+    "node-cache": "^4.1.1",
+    "mocha": "^4.0.1"
+  },
+  "devDependencies": {
+    "dotenv": "^4.0.0",
+    "jsdoc": "^3.5.5",
+    "nsp": "^2.8.1",
+    "standard": "^10.0.3"
+  },
+  "scripts": {
+    "security-check": "nsp check",
+    "test": "mocha --timeout=5000 --recursive ./modules",
+    "testWin": "SET NODE_ENV=test & nyc --reporter=lcov mocha --reporter=nyan --timeout=20000 --recursive ./modules",
+    "start": "node server",
+    "startWin": "SET NODE_ENV=development & nodemon server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gsasouza/ez5-teste.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gsasouza/ez5-teste/issues"
+  },
+  "homepage": "https://github.com/gsasouza/ez5-teste#readme"
+}
