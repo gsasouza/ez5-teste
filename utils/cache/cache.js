@@ -1,7 +1,9 @@
 const NodeCache = require('node-cache')
 
 module.exports = (expireTimeInSeconds = 70) => {
-
+  /**
+   * Cache object constructor
+   */
   const cache = new NodeCache({
     stdTTL: expireTimeInSeconds,
     checkperiod: expireTimeInSeconds * 2

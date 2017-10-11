@@ -77,15 +77,9 @@ function findData (req, res, next) {
       if (req.query.type) {
         if (['asks', 'bids'].indexOf(req.query.type) !== -1) result = result[req.query.type].filter(filterData(req.query))
         else result = []
-      }
-      else Object.keys(result).forEach((key) => result[key] = result[key].filter(filterData(req.query)))
-      return res.status(200).send(
-        {
-          status: 200,
-          message: 'Data loaded successfully',
-          data: result
-        }
-      )
+      } else Object.keys(result).forEach((key) => result[key] = result[key].filter(filterData(req.query)))
+
+      return res.status(200).send({status: 200, message: 'Data loaded successfully', data: result})
     })
     .catch((err) => next(err))
 }
