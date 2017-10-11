@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/gsasouza/ez5-teste.svg?branch=master)](https://travis-ci.org/gsasouza/ez5-teste)
+[![codecov](https://codecov.io/gh/gsasouza/ez5-teste/branch/master/graph/badge.svg)](https://codecov.io/gh/gsasouza/ez5-teste)
+
 # Instruções de Instalação #
 
 
